@@ -1,6 +1,9 @@
 from typing import Tuple
 from flask import Blueprint, request
 from infra.controllers.employee_controller import EmployeeController
+from infra.controllers.medical_appointment_controller import (
+    MedicalAppointmentController,
+)
 from infra.controllers.medical_unit_controller import MedicalUnitController
 from infra.controllers.patient_controller import PatientController
 from infra.controllers.plan_controller import PlanController
@@ -8,11 +11,13 @@ from infra.controllers.problem_controller import ProblemController
 
 
 routes = Blueprint("routes", __name__)
+
 employee_controller = EmployeeController()
 plans_controller = PlanController()
 patient_controller = PatientController()
 medical_unit_controller = MedicalUnitController()
 problem_controller = ProblemController()
+medical_appointment_controller = MedicalAppointmentController()
 
 
 @routes.route("/employee", methods=["POST"])
@@ -62,7 +67,7 @@ def find_medical_units() -> Tuple[dict, int]:
     }, 200
 
 
-@routes.route("/patient/<int:patient_id>/problem", methods=["POST"])
+@routes.route("/patient/<int:patient_id>/problem/<int:problem_id>", methods=["POST"])
 def create_problem(patient_id: int) -> Tuple[dict, int]:
     body = request.get_json()
     problem = problem_controller.create(
@@ -70,3 +75,18 @@ def create_problem(patient_id: int) -> Tuple[dict, int]:
         description=body["description"],
     )
     return {"problem": problem.to_dict()}, 201
+
+
+@routes.route(
+    "/patient/<int:patient_id>/problem/<int:problem_id>/medical-appointment",
+    methods=["POST"],
+)
+def create_medical_appointment(patient_id: int, problem_id: int) -> Tuple[dict, int]:
+    body = request.get_json()
+    medical_appointment = medical_appointment_controller.create(
+        date=body["date"],
+        patient_id=patient_id,
+        problem_id=problem_id,
+        employee_id=body["employee_id"],
+    )
+    return {"medical_appointment": medical_appointment.to_dict()}, 201

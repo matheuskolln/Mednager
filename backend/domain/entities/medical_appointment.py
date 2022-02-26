@@ -9,6 +9,9 @@ from domain.entities.problem import IProblem
 class IMedicalAppointment(BaseModel):
     id: int
     date: date
+    patient_id: int
     patient: IPatient
+    problem_id: int
     problem: IProblem
+    employee_id: int
     employee: IEmployee

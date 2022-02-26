@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlalchemy.orm.session import Session
 from domain.entities.problem import IProblem
 from domain.repositories.problem_repository import IProblemRepository
@@ -15,3 +16,7 @@ class ProblemRepository(IProblemRepository):
         self.session.add(problem)
         self.session.commit()
         return problem
+
+    def find_by_id(self, problem_id: int) -> Optional[IProblem]:
+        patient = self.session.query(Problem).filter(Problem.id == problem_id).first()
+        return patient

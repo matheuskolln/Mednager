@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 from domain.entities.employee import IEmployee
 from domain.repositories.employee_repository import IEmployeeRepository
 from sqlalchemy.orm.session import Session
@@ -24,3 +25,6 @@ class EmployeeRepository(IEmployeeRepository):
 
     def find_by(self, email: str) -> IEmployee:
         return self.session.query(Employee).filter(Employee.email == email).first()
+
+    def find_by_id(self, employee_id) -> Optional[IEmployee]:
+        return self.session.query(Employee).filter(Employee.id == employee_id).first()
