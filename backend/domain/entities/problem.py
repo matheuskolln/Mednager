@@ -4,6 +4,6 @@ from domain.entities.patient import IPatient
 
 
 class IProblem(BaseModel):
-    id: int
+    patient_id: int
     description: str
     patient: IPatient

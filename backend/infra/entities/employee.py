@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from sqlalchemy import Column, Date, Integer, String
 from config.extensions import Base
 
@@ -13,7 +14,7 @@ class Employee(Base):
     email = Column(String(100), nullable=False)
     password = Column(String(MAX_CHAR_FOR_PASSWORD), nullable=False)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "id": self.id,
             "fullname": self.fullname,

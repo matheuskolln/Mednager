@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from sqlalchemy import Column, Float, Integer, String
 
 from config.extensions import Base
@@ -13,7 +14,7 @@ class Plan(Base):
     description = Column(String(255), nullable=False)
     price = Column(Float, nullable=False)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,

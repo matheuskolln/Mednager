@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from config.extensions import Base
@@ -16,7 +17,7 @@ class Patient(Base):
     plan_id = Column(Integer, ForeignKey(Plan.id), nullable=True)
     plan: relationship = relationship(Plan)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "id": self.id,
             "fullname": self.fullname,
