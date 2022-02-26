@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0.26
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./scripts/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./scripts/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: backend
+    networks:
+      - backend-network
+  backend:
+    build: .
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - "50000:5000"
+    environment:
+      - FLASK_APP=app.py
+    networks:
+      backend-network:
+        aliases:
+          - flask-app
+    command: bash -c "flask run --host=0.0.0.0 --port=5000"
+
+networks:
+  backend-network:

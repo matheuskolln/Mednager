@@ -4,6 +4,7 @@ from domain.entities.doctor import IDoctor
 
 from domain.entities.patient import IPatient
 
+
 class IMedicalPrescription(BaseModel):
     id: int
     description: str
