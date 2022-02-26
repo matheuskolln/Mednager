@@ -1,6 +1,7 @@
 from typing import Tuple
 from flask import Blueprint, request
 from infra.controllers.employee_controller import EmployeeController
+from infra.controllers.medical_unit_controller import MedicalUnitController
 from infra.controllers.patient_controller import PatientController
 from infra.controllers.plan_controller import PlanController
 
@@ -9,6 +10,7 @@ routes = Blueprint("routes", __name__)
 employee_controller = EmployeeController()
 plans_controller = PlanController()
 patient_controller = PatientController()
+medical_unit_controller = MedicalUnitController()
 
 
 @routes.route("/employee", methods=["POST"])
@@ -48,3 +50,11 @@ def add_plan_to_patient(patient_id: int) -> Tuple[dict, int]:
         plan_id=body["plan_id"],
     )
     return {"patient": patient.to_dict()}, 201
+
+
+@routes.route("/medical-units", methods=["GET"])
+def find_medical_units() -> Tuple[dict, int]:
+    medical_units = medical_unit_controller.find()
+    return {
+        "medical_units": [medical_unit.to_dict() for medical_unit in medical_units]
+    }, 200
