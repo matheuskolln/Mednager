@@ -1,6 +1,6 @@
 from datetime import date
+from typing import Optional
 from domain.entities.patient import IPatient
-from domain.entities.plan import IPlan
 from domain.repositories.patient_repository import IPatientRepository
 from sqlalchemy.orm.session import Session
 
@@ -19,7 +19,16 @@ class PatientRepository(IPatientRepository):
         self.session.commit()
         return patient
 
-    def add_plan_to(self, patient: IPatient, plan: IPlan) -> IPatient:
-        patient.plan = plan
+    def add_plan_to(self, patient_id: int, plan_id: int) -> IPatient:
+        patient = self.session.query(Patient).filter(Patient.id == patient_id).one()
+
+        patient.plan_id = plan_id
         self.session.commit()
+
+        return patient
+
+    def find_by_id(self, patient_id: int) -> Optional[IPatient]:
+        patient = (
+            self.session.query(Patient).filter(Patient.id == patient_id).one_or_none()
+        )
         return patient

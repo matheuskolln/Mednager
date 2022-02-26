@@ -38,3 +38,13 @@ def create_patient() -> Tuple[dict, int]:
         document=body["document"],
     )
     return {"patient": patient.to_dict()}, 201
+
+
+@routes.route("/patient/<int:patient_id>/plan", methods=["POST"])
+def add_plan_to_patient(patient_id: int) -> Tuple[dict, int]:
+    body = request.get_json()
+    patient = patient_controller.add_plan_to(
+        patient_id=patient_id,
+        plan_id=body["plan_id"],
+    )
+    return {"patient": patient.to_dict()}, 201
