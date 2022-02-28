@@ -1,10 +1,12 @@
 from datetime import date
 from pydantic import BaseModel
 
+from domain.entities.speciality import ISpeciality
+
 
 class IDoctor(BaseModel):
-    id: int
     fullname: str
     birthdate: date
     crm: int
-    speciality: int
+    speciality_id: int
+    speciality: ISpeciality

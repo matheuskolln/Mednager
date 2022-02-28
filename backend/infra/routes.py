@@ -8,6 +8,7 @@ from infra.controllers.medical_unit_controller import MedicalUnitController
 from infra.controllers.patient_controller import PatientController
 from infra.controllers.plan_controller import PlanController
 from infra.controllers.problem_controller import ProblemController
+from infra.controllers.speciality_controller import SpecialityController
 
 
 routes = Blueprint("routes", __name__)
@@ -18,6 +19,7 @@ patient_controller = PatientController()
 medical_unit_controller = MedicalUnitController()
 problem_controller = ProblemController()
 medical_appointment_controller = MedicalAppointmentController()
+specialities_controller = SpecialityController()
 
 
 @routes.route("/employee", methods=["POST"])
@@ -90,3 +92,9 @@ def create_medical_appointment(patient_id: int, problem_id: int) -> Tuple[dict, 
         employee_id=body["employee_id"],
     )
     return {"medical_appointment": medical_appointment.to_dict()}, 201
+
+
+@routes.route("/specialities", methods=["GET"])
+def find_specialities() -> Tuple[dict, int]:
+    specialities = specialities_controller.find()
+    return {"specialities": [speciality.to_dict() for speciality in specialities]}, 200
