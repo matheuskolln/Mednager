@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 from domain.entities.medical_appointment import IMedicalAppointment
 from domain.repositories.medical_appointment_repository import (
     IMedicalAppointmentRepository,
@@ -27,4 +28,12 @@ class MedicalAppointmentRepository(IMedicalAppointmentRepository):
         self.session.add(medical_appointment)
         self.session.commit()
 
+        return medical_appointment
+
+    def find_by_id(self, id: int) -> Optional[IMedicalAppointment]:
+        medical_appointment = (
+            self.session.query(MedicalAppointment)
+            .filter(MedicalAppointment.id == id)
+            .first()
+        )
         return medical_appointment

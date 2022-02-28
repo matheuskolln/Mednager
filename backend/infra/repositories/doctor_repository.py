@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
 from domain.entities.doctor import IDoctor
 from domain.repositories.doctor_repository import IDoctorRepository
@@ -13,3 +13,6 @@ class DoctorRepository(IDoctorRepository):
 
     def find(self) -> List[IDoctor]:
         return self.session.query(Doctor).all()
+
+    def find_by_id(self, id: int) -> Optional[IDoctor]:
+        return self.session.query(Doctor).filter(Doctor.id == id).first()

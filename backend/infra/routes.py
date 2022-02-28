@@ -2,6 +2,7 @@ from typing import Tuple
 from flask import Blueprint, request
 from infra.controllers.doctor_controller import DoctorController
 from infra.controllers.employee_controller import EmployeeController
+from infra.controllers.exam_controller import ExamController
 from infra.controllers.medical_appointment_controller import (
     MedicalAppointmentController,
 )
@@ -22,6 +23,7 @@ problem_controller = ProblemController()
 medical_appointment_controller = MedicalAppointmentController()
 specialities_controller = SpecialityController()
 doctor_controller = DoctorController()
+exam_controller = ExamController()
 
 
 @routes.route("/employee", methods=["POST"])
@@ -106,3 +108,16 @@ def find_specialities() -> Tuple[dict, int]:
 def find_doctors() -> Tuple[dict, int]:
     doctors = doctor_controller.find()
     return {"doctors": [doctor.to_dict() for doctor in doctors]}, 200
+
+
+@routes.route("/doctors/<int:doctor_id>/exams", methods=["POST"])
+def create_exam(doctor_id: int) -> Tuple[dict, int]:
+    body = request.get_json()
+    exam = exam_controller.create(
+        date=body["date"],
+        employee_id=body["employee_id"],
+        previous_medical_appointment_id=body["previous_medical_appointment_id"],
+        patient_id=body["patient_id"],
+        doctor_id=doctor_id,
+    )
+    return {"exam": exam.to_dict()}, 201

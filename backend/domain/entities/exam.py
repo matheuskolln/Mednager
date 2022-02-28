@@ -8,9 +8,12 @@ from domain.entities.patient import IPatient
 
 
 class IExam(BaseModel):
-    id: int
     date: date
+    employee_id: int
     employee: IEmployee
+    previous_medical_appointment_id: int
     previous_medical_appointment: IMedicalAppointment
+    patient_id: int
     patient: IPatient
+    doctor_id: int
     doctor: IDoctor
