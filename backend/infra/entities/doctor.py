@@ -1,5 +1,4 @@
-from MySQLdb import Date
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship
 
 from config.extensions import Base

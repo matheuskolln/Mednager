@@ -1,4 +1,10 @@
-from config.consts import DEFAULT_MEDICAL_UNITS, DEFAULT_PLANS, DEFAULT_SPECIALITIES
+from config.consts import (
+    DEFAULT_DOCTORS,
+    DEFAULT_MEDICAL_UNITS,
+    DEFAULT_PLANS,
+    DEFAULT_SPECIALITIES,
+)
+from infra.entities.doctor import Doctor
 from infra.entities.medical_unit import MedicalUnit
 from infra.entities.plan import Plan
 from infra.entities.speciality import Speciality
@@ -34,7 +40,18 @@ def populate_specialities(db_session) -> None:
     db_session.commit()
 
 
+def populate_doctors(db_session) -> None:
+    for doctor in DEFAULT_DOCTORS:
+        possible_existing_doctor = (
+            db_session.query(Doctor).filter_by(fullname=doctor.fullname).first()
+        )
+        if not possible_existing_doctor:
+            db_session.add(Doctor(**doctor.dict()))
+    db_session.commit()
+
+
 def populate(db_session) -> None:
     populate_plans(db_session)
     populate_medical_units(db_session)
     populate_specialities(db_session)
+    populate_doctors(db_session)

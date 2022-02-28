@@ -3,7 +3,7 @@ from domain.entities.doctor import IDoctor
 from domain.repositories.doctor_repository import IDoctorRepository
 
 
-class ListDoctors:
+class FindDoctors:
     def __init__(self, doctor_repository: IDoctorRepository):
         self.doctor_repository = doctor_repository
 
