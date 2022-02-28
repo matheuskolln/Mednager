@@ -6,6 +6,9 @@ from infra.controllers.exam_controller import ExamController
 from infra.controllers.medical_appointment_controller import (
     MedicalAppointmentController,
 )
+from infra.controllers.medical_prescription_controller import (
+    MedicalPrescriptionController,
+)
 from infra.controllers.medical_unit_controller import MedicalUnitController
 from infra.controllers.patient_controller import PatientController
 from infra.controllers.plan_controller import PlanController
@@ -24,6 +27,7 @@ medical_appointment_controller = MedicalAppointmentController()
 specialities_controller = SpecialityController()
 doctor_controller = DoctorController()
 exam_controller = ExamController()
+medical_prescription_controller = MedicalPrescriptionController()
 
 
 @routes.route("/employee", methods=["POST"])
@@ -121,3 +125,15 @@ def create_exam(doctor_id: int) -> Tuple[dict, int]:
         doctor_id=doctor_id,
     )
     return {"exam": exam.to_dict()}, 201
+
+
+@routes.route("/patients/<int:patient_id>/medical-prescriptions", methods=["POST"])
+def create_medical_prescription(patient_id: int) -> Tuple[dict, int]:
+    body = request.get_json()
+    medical_prescription = medical_prescription_controller.create(
+        description=body["description"],
+        date=body["date"],
+        patient_id=patient_id,
+        doctor_id=body["doctor_id"],
+    )
+    return {"medical_prescription": medical_prescription.to_dict()}, 201
