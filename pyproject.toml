@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Matheus Kolln <matheuzhenrik@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pydantic = "^1.9.0"
+pylint = "^2.12.2"
+black = "^22.1.0"
+SQLAlchemy = "^1.4.31"
+mypy = "^0.931"
+Flask = "^2.0.3"
+alembic = "^1.7.6"
+mysqlclient = "^2.1.0"
+
+[tool.poetry.dev-dependencies]
+sqlalchemy-stubs = "^0.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.'MESSAGES CONTROL']
+extension-pkg-whitelist = "pydantic"
+disable = '''missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+'''
+
+[tool.mypy]
+plugins = [
+    "sqlalchemy-stubs"
+]
