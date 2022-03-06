@@ -1,4 +1,5 @@
 from datetime import date
+from domain.entities.employee import IEmployee
 from domain.entities.medical_unit import IMedicalUnit
 from domain.entities.plan import IPlan
 from domain.entities.speciality import ISpeciality
@@ -12,12 +13,6 @@ DEFAULT_PLANS = [
     )
 ]
 
-DEFAULT_MEDICAL_UNITS = [
-    IMedicalUnit(
-        name="Medical Unit - UFSC",
-        address="Araranguá, SC, Brazil",
-    )
-]
 
 DEFAULT_SPECIALITIES = [
     ISpeciality(
@@ -32,5 +27,23 @@ DEFAULT_DOCTORS = [
         birthdate=date(2000, 1, 1),
         crm=12345,
         speciality_id=1,
+    )
+]
+
+DEFAULT_MEDICAL_UNITS = [
+    IMedicalUnit(
+        name="Medical Unit - UFSC",
+        address="Araranguá, SC, Brazil",
+        employee_id=1,
+        doctors=DEFAULT_DOCTORS,
+    )
+]
+
+DEFAULT_EMPLOYEES = [
+    IEmployee(
+        fullname="Employee - UFSC",
+        birthdate=date(2000, 1, 1),
+        email="employee@ufsc.br",
+        password="12345",
     )
 ]

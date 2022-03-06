@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 
 class IEmployee(BaseModel):
-    id: int
     fullname: str
     birthdate: date
     email: str

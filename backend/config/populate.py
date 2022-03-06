@@ -1,10 +1,12 @@
 from config.consts import (
     DEFAULT_DOCTORS,
+    DEFAULT_EMPLOYEES,
     DEFAULT_MEDICAL_UNITS,
     DEFAULT_PLANS,
     DEFAULT_SPECIALITIES,
 )
 from infra.entities.doctor import Doctor
+from infra.entities.employee import Employee
 from infra.entities.medical_unit import MedicalUnit
 from infra.entities.plan import Plan
 from infra.entities.speciality import Speciality
@@ -26,7 +28,18 @@ def populate_medical_units(db_session) -> None:
             db_session.query(MedicalUnit).filter_by(name=medical_unit.name).first()
         )
         if not possible_existing_medical_unit:
-            db_session.add(MedicalUnit(**medical_unit.dict()))
+            doctors_name = [doctor.fullname for doctor in medical_unit.doctors]
+            doctors = (
+                db_session.query(Doctor).filter(Doctor.fullname.in_(doctors_name)).all()
+            )
+            db_session.add(
+                MedicalUnit(
+                    name=medical_unit.name,
+                    address=medical_unit.address,
+                    employee_id=medical_unit.employee_id,
+                    doctors=doctors,
+                )
+            )
     db_session.commit()
 
 
@@ -50,8 +63,20 @@ def populate_doctors(db_session) -> None:
     db_session.commit()
 
 
+def populate_employees(db_session) -> None:
+    for employee in DEFAULT_EMPLOYEES:
+        possible_existing_employee = (
+            db_session.query(Employee).filter_by(fullname=employee.fullname).first()
+        )
+        if not possible_existing_employee:
+            db_session.add(Employee(**employee.dict()))
+    db_session.commit()
+
+
 def populate(db_session) -> None:
-    populate_plans(db_session)
-    populate_medical_units(db_session)
+
     populate_specialities(db_session)
     populate_doctors(db_session)
+    populate_employees(db_session)
+    populate_plans(db_session)
+    populate_medical_units(db_session)
