@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import Optional
+from typing import List, Optional
 
 from domain.entities.employee import IEmployee
 
@@ -18,4 +18,8 @@ class IEmployeeRepository(ABC):
 
     @abstractmethod
     def find_by_id(self, employee_id) -> Optional[IEmployee]:
+        pass
+
+    @abstractmethod
+    def find(self) -> List[IEmployee]:
         pass

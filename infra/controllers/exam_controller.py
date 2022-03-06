@@ -2,6 +2,7 @@ from datetime import date
 from typing import Optional
 from domain.entities.exam import IExam
 from domain.use_cases.factories.create_exam_factory import CreateExamFactory
+from infra.repositories.factories.exam_repository_factory import ExamRepositoryFactory
 
 
 class ExamController:
@@ -22,3 +23,7 @@ class ExamController:
             doctor_id=doctor_id,
         )
         return exam
+
+    def find(self) -> list:
+        exam_repository = ExamRepositoryFactory()
+        return exam_repository.find()

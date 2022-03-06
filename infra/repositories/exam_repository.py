@@ -29,3 +29,6 @@ class ExamRepository(IExamRepository):
         self.session.add(exam)
         self.session.commit()
         return exam
+
+    def find(self) -> list:
+        return self.session.query(Exam).all()

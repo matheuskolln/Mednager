@@ -37,3 +37,6 @@ class MedicalAppointmentRepository(IMedicalAppointmentRepository):
             .first()
         )
         return medical_appointment
+
+    def find(self) -> list:
+        return self.session.query(MedicalAppointment).all()

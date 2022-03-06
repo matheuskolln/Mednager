@@ -7,6 +7,6 @@ class CreatePatient:
     def __init__(self, patient_repository: IPatientRepository):
         self.patient_repository = patient_repository
 
-    def execute(self, fullname: str, birthdate: date, document: int) -> IPatient:
+    def execute(self, fullname: str, birthdate: date, document: str) -> IPatient:
         patient_created = self.patient_repository.create(fullname, birthdate, document)
         return patient_created

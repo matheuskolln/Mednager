@@ -14,3 +14,7 @@ class IMedicalAppointmentRepository(ABC):
     @abstractmethod
     def find_by_id(self, id: int) -> Optional[IMedicalAppointment]:
         pass
+
+    @abstractmethod
+    def find(self) -> list:
+        pass

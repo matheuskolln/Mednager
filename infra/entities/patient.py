@@ -13,7 +13,7 @@ class Patient(Base):
     id = Column(Integer, primary_key=True)
     fullname = Column(String(100), nullable=False)
     birthdate = Column(Date, nullable=False)
-    document = Column(Integer, nullable=False)
+    document = Column(String(11), nullable=False)
     plan_id = Column(Integer, ForeignKey(Plan.id), nullable=True)
     plan: relationship = relationship(Plan)
 

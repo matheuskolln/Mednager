@@ -14,3 +14,7 @@ class IExamRepository(ABC):
         doctor_id: int,
     ) -> IExam:
         pass
+
+    @abstractmethod
+    def find(self) -> list:
+        pass

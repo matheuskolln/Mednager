@@ -2,12 +2,14 @@ from config.consts import (
     DEFAULT_DOCTORS,
     DEFAULT_EMPLOYEES,
     DEFAULT_MEDICAL_UNITS,
+    DEFAULT_PATIENTS,
     DEFAULT_PLANS,
     DEFAULT_SPECIALITIES,
 )
 from infra.entities.doctor import Doctor
 from infra.entities.employee import Employee
 from infra.entities.medical_unit import MedicalUnit
+from infra.entities.patient import Patient
 from infra.entities.plan import Plan
 from infra.entities.speciality import Speciality
 
@@ -73,6 +75,16 @@ def populate_employees(db_session) -> None:
     db_session.commit()
 
 
+def populate_patients(db_session) -> None:
+    for patient in DEFAULT_PATIENTS:
+        possible_existing_patient = (
+            db_session.query(Patient).filter_by(fullname=patient.fullname).first()
+        )
+        if not possible_existing_patient:
+            db_session.add(Patient(**patient.dict()))
+    db_session.commit()
+
+
 def populate(db_session) -> None:
 
     populate_specialities(db_session)
@@ -80,3 +92,4 @@ def populate(db_session) -> None:
     populate_employees(db_session)
     populate_plans(db_session)
     populate_medical_units(db_session)
+    populate_patients(db_session)

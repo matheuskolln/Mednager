@@ -12,3 +12,7 @@ class IProblemRepository(ABC):
     @abstractmethod
     def find_by_id(self, problem_id: int) -> Optional[IProblem]:
         pass
+
+    @abstractmethod
+    def find(self) -> list:
+        pass

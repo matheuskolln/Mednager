@@ -13,3 +13,8 @@ class IMedicalPrescriptionRepository(ABC):
         doctor_id: int,
     ) -> IMedicalPrescription:
         pass
+
+
+    @abstractmethod
+    def find(self) -> list:
+        pass

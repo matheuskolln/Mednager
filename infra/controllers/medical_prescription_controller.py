@@ -5,6 +5,9 @@ from domain.entities.medical_prescription import IMedicalPrescription
 from domain.use_cases.factories.create_medical_prescription_factory import (
     CreateMedicalPrescriptionFactory,
 )
+from infra.repositories.factories.medical_prescription_repository_factory import (
+    MedicalPrescriptionRepositoryFactory,
+)
 
 
 class MedicalPrescriptionController:
@@ -18,3 +21,7 @@ class MedicalPrescriptionController:
             patient_id=patient_id,
             doctor_id=doctor_id,
         )
+
+    def find(self) -> list:
+        repository = MedicalPrescriptionRepositoryFactory()
+        return repository.find()

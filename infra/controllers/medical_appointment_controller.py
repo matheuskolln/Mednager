@@ -3,6 +3,9 @@ from domain.entities.medical_appointment import IMedicalAppointment
 from domain.use_cases.factories.create_medical_appointment_factory import (
     CreateMedicalAppointmentFactory,
 )
+from infra.repositories.factories.medical_appointment_repository_factory import (
+    MedicalAppointmentRepositoryFactory,
+)
 
 
 class MedicalAppointmentController:
@@ -14,3 +17,7 @@ class MedicalAppointmentController:
             date, patient_id, problem_id, employee_id
         )
         return medical_appointment_created
+
+    def find(self) -> list:
+        repository = MedicalAppointmentRepositoryFactory()
+        return repository.find()

@@ -27,3 +27,6 @@ class MedicalPrescriptionRepository(IMedicalPrescriptionRepository):
         self.session.commit()
 
         return medical_prescription
+
+    def find(self) -> list:
+        return self.session.query(MedicalPrescription).all()

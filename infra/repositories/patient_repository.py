@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import List, Optional
 from domain.entities.patient import IPatient
 from domain.repositories.patient_repository import IPatientRepository
 from sqlalchemy.orm.session import Session
@@ -13,7 +13,7 @@ class PatientRepository(IPatientRepository):
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def create(self, fullname: str, birthdate: date, document: int) -> IPatient:
+    def create(self, fullname: str, birthdate: date, document: str) -> IPatient:
         patient = Patient(fullname=fullname, birthdate=birthdate, document=document)
         self.session.add(patient)
         self.session.commit()
@@ -32,3 +32,6 @@ class PatientRepository(IPatientRepository):
             self.session.query(Patient).filter(Patient.id == patient_id).one_or_none()
         )
         return patient
+
+    def find(self) -> List[IPatient]:
+        return self.session.query(Patient).all()

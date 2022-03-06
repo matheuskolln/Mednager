@@ -20,3 +20,6 @@ class ProblemRepository(IProblemRepository):
     def find_by_id(self, problem_id: int) -> Optional[IProblem]:
         patient = self.session.query(Problem).filter(Problem.id == problem_id).first()
         return patient
+
+    def find(self) -> list:
+        return self.session.query(Problem).all()

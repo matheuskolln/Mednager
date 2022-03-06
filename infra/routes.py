@@ -42,6 +42,12 @@ def create_employee() -> Tuple[dict, int]:
     return {"employee": employee.to_dict()}, 201
 
 
+@routes.route("/employees", methods=["GET"])
+def get_employees() -> Tuple[dict, int]:
+    employees = employee_controller.find()
+    return {"employees": [employee.to_dict() for employee in employees]}, 200
+
+
 @routes.route("/plans", methods=["GET"])
 def find_plans() -> Tuple[dict, int]:
     plans = plans_controller.find()
@@ -69,6 +75,12 @@ def add_plan_to_patient(patient_id: int) -> Tuple[dict, int]:
     return {"patient": patient.to_dict()}, 201
 
 
+@routes.route("/patients", methods=["GET"])
+def find_patients() -> Tuple[dict, int]:
+    patients = patient_controller.find()
+    return {"patients": [patient.to_dict() for patient in patients]}, 200
+
+
 @routes.route("/medical-units", methods=["GET"])
 def find_medical_units() -> Tuple[dict, int]:
     medical_units = medical_unit_controller.find()
@@ -77,7 +89,7 @@ def find_medical_units() -> Tuple[dict, int]:
     }, 200
 
 
-@routes.route("/patient/<int:patient_id>/problem/<int:problem_id>", methods=["POST"])
+@routes.route("/patient/<int:patient_id>/problem", methods=["POST"])
 def create_problem(patient_id: int) -> Tuple[dict, int]:
     body = request.get_json()
     problem = problem_controller.create(
@@ -85,6 +97,12 @@ def create_problem(patient_id: int) -> Tuple[dict, int]:
         description=body["description"],
     )
     return {"problem": problem.to_dict()}, 201
+
+
+@routes.route("/problems", methods=["GET"])
+def find_problems() -> Tuple[dict, int]:
+    problems = problem_controller.find()
+    return {"problems": [problem.to_dict() for problem in problems]}, 200
 
 
 @routes.route(
@@ -100,6 +118,17 @@ def create_medical_appointment(patient_id: int, problem_id: int) -> Tuple[dict, 
         employee_id=body["employee_id"],
     )
     return {"medical_appointment": medical_appointment.to_dict()}, 201
+
+
+@routes.route("/medical-appointments", methods=["GET"])
+def find_medical_appointments() -> Tuple[dict, int]:
+    medical_appointments = medical_appointment_controller.find()
+    return {
+        "medical_appointments": [
+            medical_appointment.to_dict()
+            for medical_appointment in medical_appointments
+        ]
+    }, 200
 
 
 @routes.route("/specialities", methods=["GET"])
@@ -127,6 +156,12 @@ def create_exam(doctor_id: int) -> Tuple[dict, int]:
     return {"exam": exam.to_dict()}, 201
 
 
+@routes.route("/exams", methods=["GET"])
+def find_exams() -> Tuple[dict, int]:
+    exams = exam_controller.find()
+    return {"exams": [exam.to_dict() for exam in exams]}, 200
+
+
 @routes.route("/patients/<int:patient_id>/medical-prescriptions", methods=["POST"])
 def create_medical_prescription(patient_id: int) -> Tuple[dict, int]:
     body = request.get_json()
@@ -137,3 +172,14 @@ def create_medical_prescription(patient_id: int) -> Tuple[dict, int]:
         doctor_id=body["doctor_id"],
     )
     return {"medical_prescription": medical_prescription.to_dict()}, 201
+
+
+@routes.route("/medical-prescriptions", methods=["GET"])
+def find_medical_prescriptions() -> Tuple[dict, int]:
+    medical_prescriptions = medical_prescription_controller.find()
+    return {
+        "medical_prescriptions": [
+            medical_prescription.to_dict()
+            for medical_prescription in medical_prescriptions
+        ]
+    }, 200
